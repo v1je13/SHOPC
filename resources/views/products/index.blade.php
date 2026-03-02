@@ -13,6 +13,7 @@
             <ul class="flex gap-4">
                 <li><a href="{{route('products.index')}}">Главная</a></li>
                 <li><a href="{{route('products.create')}}">Создать продукт</a></li>
+                
             </ul>
         </nav>
     </header>
@@ -31,8 +32,8 @@
                             <p>{{ $product->price}}</p>
                         </div>
                         <div class="ml-auto">
-                            <a href="">Редактировать</a>
-                            <form action="" method="POST">
+                            <a href="{{route('products.edit', ['product'=>$product])}}">Редактировать</a>
+                            <form action="{{route('products.destroy',['product'=>$product])}}" method="POST">
                                 @csrf
                                 @method('delete')
                                 <input type="submit" value="Удалить">
