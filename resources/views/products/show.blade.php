@@ -26,6 +26,7 @@
                 <div>
                     <p>{{ $product->description }}</p>
                     <p>{{ $product->price}}</p>
+                    <p>Категория: {{$product->category->title}}</p>
                 </div>
             </div>
         </div>

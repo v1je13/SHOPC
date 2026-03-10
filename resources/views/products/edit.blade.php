@@ -32,6 +32,14 @@
 
                 <label for="description">Название продукта</label><br>
                 <textarea name="description" id="description" required>{{$product->description}}</textarea><br>
+
+                <label for="category_id">Категория продукта</label><br>
+                <select name="category_id" id="category_id"class="mb-4">
+                    @foreach ($categories as $category)
+                        <option value="{{$category->id}}"{{$category->id == $product->category_id ? 'selected' : ''}}>{{$category->title}}</option>
+                    @endforeach
+                </select><br>
+
                 <input type="submit" value="Обновить">
 
          </form>

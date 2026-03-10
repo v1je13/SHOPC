@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список продуктов</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body>
     <header class="flex justify-between">
         <h1>Интернет-магазин</h1>
@@ -13,7 +15,7 @@
             <ul class="flex gap-4">
                 <li><a href="{{route('products.index')}}">Главная</a></li>
                 <li><a href="{{route('products.create')}}">Создать продукт</a></li>
-                
+
             </ul>
         </nav>
     </header>
@@ -21,28 +23,35 @@
         <div class="container mx-auto">
             <h2>Каталог товаров</h2>
             <div>
-                @foreach ($products as $product)
-                    <div class="border mb-4 flex">
-                        <img class="w-28 h-full aspect-1 mr-4" src="{{ Vite::asset($product->path_img) }}" alt="{{ $product->title }}">
-                        <div>
-                            <a href="{{route('products.show',['product'=>$product])}}">
-                                <h3>{{ $product->title }}</h3>
-                            </a>
-                            <p>{{ $product->description }}</p>
-                            <p>{{ $product->price}}</p>
-                        </div>
-                        <div class="ml-auto">
-                            <a href="{{route('products.edit', ['product'=>$product])}}">Редактировать</a>
-                            <form action="{{route('products.destroy',['product'=>$product])}}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <input type="submit" value="Удалить">
-                            </form>
-                        </div>
+                @foreach ($categories as $category)
+                <h3>{{$category->title}}</h3>
+
+
+                @foreach ($category->products as $product)
+                <div class="border mb-4 flex">
+                    <img class="w-28 h-full aspect-1 mr-4" src="{{ Vite::asset($product->path_img) }}" alt="{{ $product->title }}">
+                    <div>
+                        <a href="{{route('products.show',['product'=>$product])}}">
+                            <h4>{{ $product->title }}</h4>
+                        </a>
+                        <p>{{ $product->description }}</p>
+                        <p>{{ $product->price}}</p>
+                        <p>{{ $product->category->title}}</p>
                     </div>
+                    <div class="ml-auto">
+                        <a href="{{route('products.edit', ['product'=>$product])}}">Редактировать</a>
+                        <form action="{{route('products.destroy',['product'=>$product])}}" method="POST">
+                            @csrf
+                            @method('delete')
+                            <input type="submit" value="Удалить">
+                        </form>
+                    </div>
+                </div>
+                @endforeach
                 @endforeach
             </div>
         </div>
     </main>
 </body>
+
 </html>

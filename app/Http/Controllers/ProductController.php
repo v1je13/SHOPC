@@ -2,44 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $products = Product::all(); //выбираем все строки из таблицы products
-        return view('products.index', compact('products'));
+        $categories = Category::where('id','>=',1)->orderBy('title', 'DESC')->get();
+        return view('products.index', compact('products', 'categories'));
     }
-    public function create(){
-        return view('products.create');
+    public function create()
+    {
+
+        $categories = Category::all();
+
+        return view('products.create', compact('categories'));
     }
-    public function store(Request $request,Product $product){
+    public function store(Request $request, Product $product)
+    {
         $data = $request->validate([
             'title' => 'string|required',
             'price' => 'decimal:0,2|max:100000|min:0|required',
-            'description' => 'string|required'
+            'description' => 'string|required',
+            'category_id' =>'exists:categories,id|required'
         ]); //валидация
         $product->create($data); //создаем новую запись в БД
         return redirect()->back();
     }
 
-    public function show(Product $product){
+    public function show(Product $product)
+    {
         return view('products.show', compact('product'));
     }
 
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $categories = Category::all();
+        return view('products.edit', compact('product','categories'));
     }
 
-    public function update(Request $request,Product $product)
+    public function update(Request $request, Product $product)
     {
-         $data = $request->validate([
+        $data = $request->validate([
             'title' => 'string|required',
             'price' => 'decimal:0,2|max:100000|min:0|required',
-            'description' => 'string|required'
+            'description' => 'string|required',
+            'category_id' =>'exists:categories,id|required'
         ]); //валидация
         $product->update($data); //создаем новую запись в БД
         return redirect()->route('products.index');
@@ -50,5 +62,4 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->back();
     }
-
 }
