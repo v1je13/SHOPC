@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class Order extends Model
+class OrderProduct extends Model
 {
-       use HasFactory, Notifiable, SoftDeletes;
+ use HasFactory, Notifiable, SoftDeletes;
 }
